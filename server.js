@@ -10,6 +10,14 @@ import connectMongoDB from "./database/connnection.js"
 import { resolvers } from "./graphql/resolvers.js"
 import { typeDefs } from "./graphql/schema.js"
 
+// Import Schemas
+import { User, Post, Comment } from "./database/models/Model.js"
+
+
+
+
+
+// Configure
 const app = express();
 const PORT = process.env.PORT
 
@@ -21,6 +29,8 @@ if(!PORT){
 
 // Connect to MongoDB
 connectMongoDB();
+
+
 
 // Setup Apollo Server
 const apolloServer  = new ApolloServer({
@@ -46,8 +56,25 @@ app.use("/graphql", cors(), expressMiddleware(apolloServer), (req,res,next)=>{
 
 
 // Routes
-app.get("/",(req,res)=>{
-    res.send("Express alive")
+app.get("/", async (req,res)=>{
+
+    const user = new User({
+        name:"Hawk", 
+        email:"hawk@email.com",
+        password:"password"
+    })
+
+    try {
+        await user.save().then((savedDoc)=>{
+            console.log(savedDoc)
+            res.status(202).json(savedDoc)
+        })
+        console.log("user saved")
+        
+    } catch (error) {
+        console.log("save failed", error)
+        res.status(500).send("oopsie something happened")
+    }
 })
 
 
@@ -55,5 +82,5 @@ app.get("/",(req,res)=>{
 
 // express started
 app.listen(PORT,()=>{
-    console.log(`Express server running on ${PORT} with graphql listening at /graphql`)
+    console.log(`Express server running on ${PORT} with apollo listening at /graphql`)
 })

@@ -1,11 +1,36 @@
 export const typeDefs = `#graphql
 
 type User {
-    name:String
+    id:String!
+    name:String!
+    email:String!,
+    password:String!, 
+    createdAt:String!, 
+    updateAt:String!
+}
+
+type Post {
+    userId:String!, 
+    title:String!,
+    content:String!, 
+    createdAt:String!, 
+    updateAt:String!
+}
+
+type Comment {
+    postId:String!, 
+    userId:String!,
+    body:String!,
+    createdAt:String!,
+    updateAt:String!
 }
 
 type Query {
-    users:[User]
+    users:[User],
+    posts:[Post]
+    comments:[Comment],
+    
+
 }
 
 `

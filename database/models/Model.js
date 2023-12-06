@@ -56,9 +56,8 @@ const CommentsSchema = new mongoose.Schema({
 })
 
 
-const User = mongoose.model("Users",UsersSchema )
-const Post = mongoose.model("Posts", PostsSchema)
-const Comment = mongoose.model("Comments", CommentsSchema)
+export const User = mongoose.model("Users",UsersSchema )
+export const Post = mongoose.model("Posts", PostsSchema)
+export const Comment = mongoose.model("Comments", CommentsSchema)
 
 
-export default {User, Post, Comment}
